@@ -57,7 +57,7 @@ class Snake():
 
     def draw(self):
         for piece in self.body:
-            pygame.draw.rect(self.root, self.color, piece)
+            pygame.draw.rect(self.root, self.color, piece, 1)
 
     def check_liveness(self):
         # Ways to die:
@@ -73,11 +73,6 @@ class Snake():
             if head.colliderect(bod):
                 self.alive = False
                 break
-
-        if not self.alive:
-            font = pygame.font.SysFont('Comic Sans MS', 30)
-            wohoo = font.render('Game Over', False, self.color)
-            self.root.blit(wohoo, (200, 400))
 
     def eat(self):
         pass
