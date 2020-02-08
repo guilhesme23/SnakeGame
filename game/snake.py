@@ -13,7 +13,7 @@ class Snake():
     pos = (0,0)
     body = []
     color = (200,200,200)
-    walk = _walk(up=(0,-pace), down=(0,pace), left=(-pace,0), right=(pace,0))
+    walk = _walk(up=(0,-1), down=(0,1), left=(-1,0), right=(1,0))
     curr_dir = walk.up
 
 
@@ -33,6 +33,8 @@ class Snake():
             self.curr_dir = self.walk.up
         elif keys[274]:
             self.curr_dir = self.walk.down
+        elif keys[pygame.K_SPACE]:
+            self.grow()
 
         if self.alive:
             self.move()
@@ -40,11 +42,20 @@ class Snake():
     def move(self):
         width, height = self.root.get_size()
         pos = self.body[0]
-        if (pos[0] >= 0 and (pos[0] + self.body_size) <= width) and (pos[1] >= 0 and (pos[1] + self.body_size) <= height): 
-            self.body[0] = (self.body[0][0] + self.curr_dir[0], self.body[0][1] + self.curr_dir[1])
+        if (pos[0] >= 0 and (pos[0] + self.body_size) <= width) and (pos[1] >= 0 and (pos[1] + self.body_size) <= height):
+            dx, dy = tuple(self.pace*i for i in self.curr_dir)
+            self.pos = self.body[-1]
+            for i, piece in enumerate(self.body):
+                self.body[i] = (piece[0] + dx, piece[1] + dy)
         else:
             self.body[0] = (400,300)
             self.alive = False
+
+    def grow(self):
+        last_pos = self.pos
+        grow_dir = [-self.pace * i for i in self.curr_dir]
+        new_pos = (grow_dir[0] + last_pos[0], grow_dir[1] + last_pos[1])
+        self.body.append(self.pos)
 
     def draw(self):
         for piece in self.body:
