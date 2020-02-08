@@ -9,6 +9,7 @@ def setup(caption='Hello', width=800, height=600, background=(23,23,45)):
     screen = pygame.display.set_mode((width, height))
     screen.fill(background)
 
+    pygame.font.init()
     return screen
 
 def draw(root):
