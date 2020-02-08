@@ -21,7 +21,7 @@ def draw(root):
     # Main loop
     while running:
         root.fill(BACKGROUND)
-        dt = clock.tick(12)
+        dt = clock.tick(20)
         events = []
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

@@ -17,6 +17,13 @@ class GameManager():
 
         self.player = Snake(self.root, (400,300), res=self.res)
 
+    def reset(self):
+        del self.player
+
+        self.player = Snake(self.root, (400,300), res=self.res)
+        self.gen_food()
+        self.game_over = False
+
     def gen_food(self):
         fx = randint(0, self.cols - 1)
         fy = randint(0, self.rows - 1)
@@ -35,9 +42,14 @@ class GameManager():
                 pygame.draw.rect(self.root, cell_color, cell, 1)
 
     def update(self, dt, events):
+        for event in events:
+            if event.key == pygame.K_ESCAPE:
+                self.reset()
+                return
+
         self.player.update(dt, events)
         head = self.player.body[-1]
-        if head.colliderect(self.food):
+        if head and head.colliderect(self.food):
             self.player.grow()
             self.gen_food()
 

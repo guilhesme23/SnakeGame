@@ -20,7 +20,7 @@ class Snake():
         self.body_size = res
         self.pace = res
         rect = pygame.Rect(*pos, self.body_size, self.body_size)
-        self.body.append(rect)
+        self.body = [rect]
 
     def update(self, dt, events):
         self.check_liveness()
@@ -34,8 +34,6 @@ class Snake():
                 self.curr_dir = self.walk.up
             elif event.key == pygame.K_DOWN and self.curr_dir != self.walk.up:
                 self.curr_dir = self.walk.down
-            elif event.key == pygame.K_SPACE:
-                self.grow()
 
         if self.alive:
             self.move()
