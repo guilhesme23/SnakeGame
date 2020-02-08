@@ -17,9 +17,10 @@ class Snake():
 
     def __init__(self, root, pos, res=20):
         self.root = root
-        self.body.append(pos)
         self.body_size = res
         self.pace = res
+        rect = pygame.Rect(*pos, self.body_size, self.body_size)
+        self.body.append(rect)
 
     def update(self, dt, events):
         for event in events:
@@ -45,7 +46,7 @@ class Snake():
             curr_head = self.body[-1]
             piece = self.body.pop(0)
             new_head = self.body[-1] if self.body else piece
-            new_head = (new_head[0] + dx, new_head[1] + dy)
+            new_head = pygame.Rect(new_head[0] + dx, new_head[1] + dy, self.body_size, self.body_size)
             self.body.append(new_head)
         else:
             self.alive = False
@@ -53,12 +54,12 @@ class Snake():
     def grow(self):
         dx, dy = tuple(self.pace*i for i in self.curr_dir)
         piece = (self.body[-1][0] + dx, self.body[-1][1] + dy)
-        self.body.append(piece)
+        rect = pygame.Rect(*piece, self.body_size, self.body_size)
+        self.body.append(rect)
 
     def draw(self):
         for piece in self.body:
-            rect = (*piece, self.body_size, self.body_size)
-            pygame.draw.rect(self.root, self.color, rect)
+            pygame.draw.rect(self.root, self.color, piece)
 
     def eat(self):
         pass
