@@ -42,21 +42,23 @@ class Snake():
 
     def move(self):
         width, height = self.root.get_size()
-        pos = self.body[0]
+        pos = self.body[-1]
         if (pos[0] >= 0 and (pos[0] + self.body_size) <= width) and (pos[1] >= 0 and (pos[1] + self.body_size) <= height):
             dx, dy = tuple(self.pace*i for i in self.curr_dir)
-            self.pos = self.body[-1]
-            for i, piece in enumerate(self.body):
-                self.body[i] = (piece[0] + dx, piece[1] + dy)
+            curr_head = self.body[-1]
+            piece = self.body.pop(0)
+            new_head = self.body[-1] if self.body else piece
+            new_head = (new_head[0] + dx, new_head[1] + dy)
+            self.body.append(new_head)
+            # for i, piece in enumerate(self.body):
+            #     self.body[i] = (piece[0] + dx, piece[1] + dy)
         else:
-            self.body[0] = (400,300)
             self.alive = False
 
     def grow(self):
-        last_pos = self.pos
-        grow_dir = [-self.pace * i for i in self.curr_dir]
-        new_pos = (grow_dir[0] + last_pos[0], grow_dir[1] + last_pos[1])
-        self.body.append(self.pos)
+        dx, dy = tuple(self.pace*i for i in self.curr_dir)
+        piece = (self.body[-1][0] + dx, self.body[-1][1] + dy)
+        self.body.append(piece)
 
     def draw(self):
         for piece in self.body:
