@@ -8,30 +8,31 @@ _walk = namedtuple('Walk', 'up down left right')
 class Snake():
     alive = True
     points = 5
-    body_size = 15
-    pace = 0.5
+    body_size = 20
+    pace = body_size
     pos = (0,0)
     body = []
     color = (200,200,200)
     walk = _walk(up=(0,-1), down=(0,1), left=(-1,0), right=(1,0))
-    curr_dir = walk.up
+    curr_dir = walk.right
 
 
-    def __init__(self, root, pos):
+    def __init__(self, root, pos, res=20):
         self.pos = pos
         self.root = root
         self.body.append(self.pos)
+        self.body_size = res
 
-    def update(self):
+    def update(self, dt):
         keys = pygame.key.get_pressed()
         move_keys = keys[273:277]
-        if keys[275]:
+        if keys[pygame.K_RIGHT] and self.curr_dir != self.walk.left:
             self.curr_dir = self.walk.right
-        elif keys[276]:
+        elif keys[pygame.K_LEFT] and self.curr_dir != self.walk.right:
             self.curr_dir = self.walk.left
-        elif keys[273]:
+        elif keys[pygame.K_UP] and self.curr_dir != self.walk.down:
             self.curr_dir = self.walk.up
-        elif keys[274]:
+        elif keys[pygame.K_DOWN] and self.curr_dir != self.walk.up:
             self.curr_dir = self.walk.down
         elif keys[pygame.K_SPACE]:
             self.grow()

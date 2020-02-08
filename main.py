@@ -15,11 +15,14 @@ def draw(root):
     running = True
 
     game = GameManager(root)
-
+    getTicksLastFrame = 0
+    clock = pygame.time.Clock()
     # Main loop
     while running:
         root.fill(BACKGROUND)
-        game.draw_map()
+        dt = clock.tick(10)
+        game.update(dt)
+        game.draw()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
