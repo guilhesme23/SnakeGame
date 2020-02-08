@@ -11,7 +11,7 @@ class GameManager():
         self.rows = int(height/res)
         self.res = res
 
-        self.player = Snake(self.root, (400,300))
+        self.player = Snake(self.root, (400,300), res=self.res)
 
     def _draw_map(self):
         cell_color = (200,200,200, 10)
@@ -20,9 +20,9 @@ class GameManager():
                 cell = pygame.Rect(col * self.res, row * self.res, self.res, self.res)
                 pygame.draw.rect(self.root, cell_color, cell, 1)
 
-    def update(self, dt):
-        self.player.update(dt)
+    def update(self, dt, events):
+        self.player.update(dt, events)
 
     def draw(self):
-        self._draw_map()
+        # self._draw_map()
         self.player.draw()

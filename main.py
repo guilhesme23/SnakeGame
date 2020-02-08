@@ -14,18 +14,22 @@ def setup(caption='Hello', width=800, height=600, background=(23,23,45)):
 def draw(root):
     running = True
 
-    game = GameManager(root)
+    game = GameManager(root, 10)
     getTicksLastFrame = 0
     clock = pygame.time.Clock()
     # Main loop
     while running:
         root.fill(BACKGROUND)
-        dt = clock.tick(10)
-        game.update(dt)
-        game.draw()
+        dt = clock.tick(12)
+        events = []
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            if event.type == pygame.KEYDOWN:
+                events.append(event)
+
+        game.update(dt, events)
+        game.draw()
 
         pygame.display.update()
 

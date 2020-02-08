@@ -7,10 +7,8 @@ _walk = namedtuple('Walk', 'up down left right')
 
 class Snake():
     alive = True
-    points = 5
     body_size = 20
     pace = body_size
-    pos = (0,0)
     body = []
     color = (200,200,200)
     walk = _walk(up=(0,-1), down=(0,1), left=(-1,0), right=(1,0))
@@ -18,24 +16,23 @@ class Snake():
 
 
     def __init__(self, root, pos, res=20):
-        self.pos = pos
         self.root = root
-        self.body.append(self.pos)
+        self.body.append(pos)
         self.body_size = res
+        self.pace = res
 
-    def update(self, dt):
-        keys = pygame.key.get_pressed()
-        move_keys = keys[273:277]
-        if keys[pygame.K_RIGHT] and self.curr_dir != self.walk.left:
-            self.curr_dir = self.walk.right
-        elif keys[pygame.K_LEFT] and self.curr_dir != self.walk.right:
-            self.curr_dir = self.walk.left
-        elif keys[pygame.K_UP] and self.curr_dir != self.walk.down:
-            self.curr_dir = self.walk.up
-        elif keys[pygame.K_DOWN] and self.curr_dir != self.walk.up:
-            self.curr_dir = self.walk.down
-        elif keys[pygame.K_SPACE]:
-            self.grow()
+    def update(self, dt, events):
+        for event in events:
+            if event.key == pygame.K_RIGHT and self.curr_dir != self.walk.left:
+                self.curr_dir = self.walk.right
+            elif event.key == pygame.K_LEFT and self.curr_dir != self.walk.right:
+                self.curr_dir = self.walk.left
+            elif event.key == pygame.K_UP and self.curr_dir != self.walk.down:
+                self.curr_dir = self.walk.up
+            elif event.key == pygame.K_DOWN and self.curr_dir != self.walk.up:
+                self.curr_dir = self.walk.down
+            elif event.key == pygame.K_SPACE:
+                self.grow()
 
         if self.alive:
             self.move()
@@ -50,8 +47,6 @@ class Snake():
             new_head = self.body[-1] if self.body else piece
             new_head = (new_head[0] + dx, new_head[1] + dy)
             self.body.append(new_head)
-            # for i, piece in enumerate(self.body):
-            #     self.body[i] = (piece[0] + dx, piece[1] + dy)
         else:
             self.alive = False
 
