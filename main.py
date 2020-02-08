@@ -1,6 +1,8 @@
 import pygame
 from snake import Snake
 
+BACKGROUND = (23,23,45)
+
 def setup(caption='Hello', width=800, height=600, background=(23,23,45)):
     pygame.init()
     pygame.display.set_caption(caption)
@@ -16,6 +18,8 @@ def draw(root):
 
     # Main loop
     while running:
+        root.fill(BACKGROUND)
+        snake.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
